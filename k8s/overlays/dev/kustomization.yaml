@@ -1,35 +1,27 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-
 namespace: dev
-
 resources:
-- ../../base/catalog
-- ../../base/cart
-- ../../base/orders
-- ../../base/checkout
-- ../../base/ui
-
+  - ../../base/catalog
+  - ../../base/cart
+  - ../../base/orders
+  - ../../base/checkout
+  - ../../base/ui
 commonLabels:
   environment: dev
-
-
-
-
-
 images:
-- name: cart
-  newName: 248195880649.dkr.ecr.ap-southeast-1.amazonaws.com/cart
-  newTag: latest
-- name: catalog
-  newName: 248195880649.dkr.ecr.ap-southeast-1.amazonaws.com/catalog
-  newTag: latest
-- name: checkout
-  newName: 248195880649.dkr.ecr.ap-southeast-1.amazonaws.com/checkout
-  newTag: latest
-- name: orders
-  newName: 248195880649.dkr.ecr.ap-southeast-1.amazonaws.com/orders
-  newTag: latest
-- name: ui
-  newName: 248195880649.dkr.ecr.ap-southeast-1.amazonaws.com/ui
-  newTag: latest
+  - name: cart
+    newName: 248195880649.dkr.ecr.ap-southeast-1.amazonaws.com/cart
+    newTag: latest
+  - name: catalog
+    newName: 248195880649.dkr.ecr.ap-southeast-1.amazonaws.com/catalog
+    newTag: latest
+  - name: checkout
+    newName: 248195880649.dkr.ecr.ap-southeast-1.amazonaws.com/checkout
+    newTag: latest
+  - name: orders
+    newName: 248195880649.dkr.ecr.ap-southeast-1.amazonaws.com/orders
+    newTag: test-tag-123
+  - name: ui
+    newName: 248195880649.dkr.ecr.ap-southeast-1.amazonaws.com/ui
+    newTag: latest

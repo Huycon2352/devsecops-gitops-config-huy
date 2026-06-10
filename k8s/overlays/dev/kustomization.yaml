@@ -52,3 +52,4 @@ images:
   # - name: 252457242399.dkr.ecr.ap-southeast-1.amazonaws.com/devsecops-dev-ui
   #   newName: 252457242399.dkr.ecr.ap-southeast-1.amazonaws.com/devsecops-dev-ui
   #   newTag: 9d40c42dfe6eb9e45d8d7af5feaf4975a43046dd
+

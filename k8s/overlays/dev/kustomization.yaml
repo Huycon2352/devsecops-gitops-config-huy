@@ -21,7 +21,7 @@ images:
     newTag: test-tag-1235
   - name: orders
     newName: 248195880649.dkr.ecr.ap-southeast-1.amazonaws.com/orders
-    newTag: test-tag-123
+    newTag: c18ab7e3a90a47863e6b1ec1c23ee272f719d8fc
   - name: ui
     newName: 248195880649.dkr.ecr.ap-southeast-1.amazonaws.com/ui
     newTag: latest

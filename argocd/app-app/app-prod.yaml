@@ -8,7 +8,7 @@ spec:
   project: default
 
   source:
-    repoURL: https://github.com/tehn145/retail-store-sample-app
+    repoURL: https://github.com/Huycon2352/devsecops-gitops-config-huy
     targetRevision: main
     path: k8s/overlays/prod
 

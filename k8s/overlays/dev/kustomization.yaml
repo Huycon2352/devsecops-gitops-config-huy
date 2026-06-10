@@ -15,7 +15,7 @@ images:
     newTag: latest
   - name: catalog
     newName: 248195880649.dkr.ecr.ap-southeast-1.amazonaws.com/catalog
-    newTag: latest
+    newTag: test-tag-1234
   - name: checkout
     newName: 248195880649.dkr.ecr.ap-southeast-1.amazonaws.com/checkout
     newTag: latest

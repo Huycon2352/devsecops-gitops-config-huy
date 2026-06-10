@@ -13,23 +13,24 @@ resources:
 commonLabels:
   environment: dev
 
-images:
-- name: ui
-  newName: 248195880649.dkr.ecr.ap-southeast-1.amazonaws.com/ui
-  newTag: latest
 
+
+
+
+images:
+- name: 248195880649.dkr.ecr.ap-southeast-1.amazonaws.com/
 - name: cart
   newName: 248195880649.dkr.ecr.ap-southeast-1.amazonaws.com/cart
   newTag: latest
-
 - name: catalog
   newName: 248195880649.dkr.ecr.ap-southeast-1.amazonaws.com/catalog
   newTag: latest
-
 - name: checkout
   newName: 248195880649.dkr.ecr.ap-southeast-1.amazonaws.com/checkout
   newTag: latest
-
 - name: orders
   newName: 248195880649.dkr.ecr.ap-southeast-1.amazonaws.com/orders
+  newTag: latest
+- name: ui
+  newName: 248195880649.dkr.ecr.ap-southeast-1.amazonaws.com/ui
   newTag: latest

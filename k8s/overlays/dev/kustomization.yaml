@@ -18,7 +18,7 @@ images:
     newTag: test-tag-1234
   - name: checkout
     newName: 248195880649.dkr.ecr.ap-southeast-1.amazonaws.com/checkout
-    newTag: latest
+    newTag: test-tag-1235
   - name: orders
     newName: 248195880649.dkr.ecr.ap-southeast-1.amazonaws.com/orders
     newTag: test-tag-123

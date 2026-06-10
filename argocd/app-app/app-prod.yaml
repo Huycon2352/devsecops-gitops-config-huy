@@ -1,22 +1,22 @@
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  name: prod
-  namespace: argocd
+# apiVersion: argoproj.io/v1alpha1
+# kind: Application
+# metadata:
+#   name: prod
+#   namespace: argocd
 
-spec:
-  project: default
+# spec:
+#   project: default
 
-  source:
-    repoURL: https://github.com/Huycon2352/devsecops-gitops-config-huy
-    targetRevision: main
-    path: k8s/overlays/prod
+#   source:
+#     repoURL: https://github.com/Huycon2352/devsecops-gitops-config-huy
+#     targetRevision: main
+#     path: k8s/overlays/prod
 
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: prod
+#   destination:
+#     server: https://kubernetes.default.svc
+#     namespace: prod
 
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
+#   syncPolicy:
+#     automated:
+#       prune: true
+#       selfHeal: true

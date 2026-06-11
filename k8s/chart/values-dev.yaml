@@ -1,12 +1,12 @@
 global:
   owner: retail-store-sample
   managedBy: Helm
-  imageRegistry: "" # ĐỂ TRỐNG: để các service bổ trợ (DB, MQ) tự dùng registry mặc định của chúng
+  imageRegistry: public.ecr.aws # BẮT BUỘC giữ lại chuỗi này để Helm không sinh ra dấu / ở đầu
 
 # --- UI SERVICE ---
 ui:
   replicaCount: 1
-  image: public.ecr.aws/aws-containers/retail-store-sample-ui:1.0.1-amd64 # ĐẦY ĐỦ ĐƯỜNG DẪN
+  image: aws-containers/retail-store-sample-ui:1.0.1-amd64 # KHÔNG CÓ public.ecr.aws/ ở đầu
   theme: default
   searchEnabled: "false"
   resources:
@@ -19,7 +19,7 @@ ui:
 # --- CATALOG SERVICE ---
 catalog:
   replicaCount: 1
-  image: public.ecr.aws/aws-containers/retail-store-sample-catalog:1.6.1 # ĐẦY ĐỦ ĐƯỜNG DẪN
+  image: aws-containers/retail-store-sample-catalog:1.6.1 # KHÔNG CÓ public.ecr.aws/ ở đầu
   searchEnabled: "false"
   resources:
     limits:
@@ -37,7 +37,7 @@ catalog:
 # --- CARTS SERVICE ---
 carts:
   replicaCount: 1
-  image: public.ecr.aws/aws-containers/retail-store-sample-cart:1.6.1 # ĐẦY ĐỦ ĐƯỜNG DẪN
+  image: aws-containers/retail-store-sample-cart:1.6.1 # KHÔNG CÓ public.ecr.aws/ ở đầu
   resources:
     limits:
       memory: 512Mi
@@ -45,7 +45,7 @@ carts:
       cpu: 256m
       memory: 512Mi
   dynamodb:
-    image: aws-dynamodb-local/aws-dynamodb-local:1.25.1 # Giữ nguyên cấu trúc mặc định của chart
+    image: aws-dynamodb-local/aws-dynamodb-local:1.25.1
     tableName: Items
     createTable: "true"
     awsAccessKey: "key"
@@ -54,7 +54,7 @@ carts:
 # --- ORDERS SERVICE ---
 orders:
   replicaCount: 1
-  image: public.ecr.aws/aws-containers/retail-store-sample-orders:1.6.1 # ĐẦY ĐỦ ĐƯỜNG DẪN
+  image: aws-containers/retail-store-sample-orders:1.6.1 # KHÔNG CÓ public.ecr.aws/ ở đầu
   resources:
     limits:
       memory: 512Mi
@@ -68,12 +68,12 @@ orders:
     password: "WGh5TW01UUo2ZUlWdW5Tdw==" 
     rootPassword: "my-secret-pw"
   rabbitmq:
-    image: docker/library/rabbitmq:3-management # Chỉ ghi phần đuôi, để chart tự nối registry mặc định
+    image: docker/library/rabbitmq:3-management
 
 # --- CHECKOUT SERVICE ---
 checkout:
   replicaCount: 1
-  image: public.ecr.aws/aws-containers/retail-store-sample-checkout:1.6.1 # ĐẦY ĐỦ ĐƯỜNG DẪN
+  image: aws-containers/retail-store-sample-checkout:1.6.1 # KHÔNG CÓ public.ecr.aws/ ở đầu
   resources:
     limits:
       memory: 256Mi
@@ -81,5 +81,5 @@ checkout:
       cpu: 128m
       memory: 256Mi
   redis:
-    image: docker/library/redis:6.0-alpine # Chỉ ghi phần đuôi, để chart tự nối registry mặc định
+    image: docker/library/redis:6.0-alpine
 

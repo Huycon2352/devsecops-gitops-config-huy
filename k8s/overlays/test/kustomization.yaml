@@ -2,20 +2,19 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 helmCharts:
-  - name: retail-store-chart
-    path: ../../chart
+    # Tên thư mục chứa Chart.yaml (Kustomize dùng trường này làm tên thư mục luôn)
+  - name: chart
+    # Đường dẫn tương đối trỏ tới thư mục CHA của thư mục 'chart'
+    chartHome: ../..
     releaseName: retail-store-dev
-    # 1. Chỉ định file values mặc định làm nền tảng
     valuesFile: ../../chart/values-dev.yaml
-    # 2. Định nghĩa các cấu hình ghi đè ĐẶC THÙ cho Minikube/DEV tại đây (Rất tiện lợi)
     valuesInline:
       tags:
         environment: "development"
       ui:
-        replicaCount: 1 # Tiết kiệm tài nguyên trên kind
+        replicaCount: 1 
       catalog:
         replicaCount: 1
 
-# Ép Service của UI thành NodePort riêng cho Minikube
 patches:
   - path: patch-ui-service.yaml

@@ -421,7 +421,7 @@ spec:
         fsGroup: 1000
       containers:
         - name: carts
-          image: "aws-containers/retail-store-sample-cart:1.6.1"
+          image: "/public.ecr.aws/aws-containers/retail-store-sample-cart:1.6.1"
           imagePullPolicy: IfNotPresent
           env:
             - name: JAVA_OPTS
@@ -485,7 +485,7 @@ spec:
     spec:
       containers:
         - name: dynamodb
-          image: "aws-dynamodb-local/aws-dynamodb-local:1.25.1"
+          image: "/aws-dynamodb-local/aws-dynamodb-local:1.25.1"
           imagePullPolicy: IfNotPresent
           ports:
             - name: dynamodb
@@ -529,7 +529,7 @@ spec:
         fsGroup: 1000
       containers:
         - name: catalog
-          image: "aws-containers/retail-store-sample-catalog:1.6.1"
+          image: "/public.ecr.aws/aws-containers/retail-store-sample-catalog:1.6.1"
           imagePullPolicy: IfNotPresent
           envFrom:
             - configMapRef:
@@ -602,7 +602,7 @@ spec:
         fsGroup: 1000
       containers:
         - name: checkout
-          image: "aws-containers/retail-store-sample-checkout:1.6.1"
+          image: "/public.ecr.aws/aws-containers/retail-store-sample-checkout:1.6.1"
           imagePullPolicy: IfNotPresent
           envFrom:
             - configMapRef:
@@ -662,7 +662,7 @@ spec:
     spec:
       containers:
         - name: redis
-          image: "public.ecr.aws/docker/library/redis:6.0-alpine"
+          image: "docker/library/redis:6.0-alpine"
           imagePullPolicy: IfNotPresent
           ports:
             - name: redis
@@ -706,7 +706,7 @@ spec:
         fsGroup: 1000
       containers:
         - name: orders
-          image: "aws-containers/retail-store-sample-orders:1.6.1"
+          image: "/public.ecr.aws/aws-containers/retail-store-sample-orders:1.6.1"
           imagePullPolicy: IfNotPresent
           env:
             - name: JAVA_OPTS
@@ -785,7 +785,7 @@ spec:
         fsGroup: 1000
       containers:
         - name: ui
-          image: "aws-containers/retail-store-sample-ui:1.0.1-amd64"
+          image: "/public.ecr.aws/aws-containers/retail-store-sample-ui:1.0.1-amd64"
           imagePullPolicy: IfNotPresent
           env:
             - name: JAVA_OPTS
@@ -864,7 +864,7 @@ spec:
     spec:
       containers:
         - name: mysql
-          image: "docker/library/mysql:8.0"
+          image: "/public.ecr.aws/docker/library/mysql:8.0"
           imagePullPolicy: IfNotPresent
           env:
             - name: MYSQL_ROOT_PASSWORD
@@ -919,7 +919,7 @@ spec:
     spec:
       containers:
         - name: postgresql
-          image: "docker/library/postgres:16.1"
+          image: "/public.ecr.aws/docker/library/postgres:16.1"
           imagePullPolicy: IfNotPresent
           env:
             - name: POSTGRES_DB
@@ -974,7 +974,7 @@ spec:
     spec:
       containers:
         - name: rabbitmq
-          image: "docker/library/rabbitmq:3-management"
+          image: "/docker/library/rabbitmq:3-management"
           imagePullPolicy: IfNotPresent
           ports:
           - name: amqp

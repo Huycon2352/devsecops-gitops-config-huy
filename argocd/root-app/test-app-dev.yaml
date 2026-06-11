@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: 'https://github.com/Huycon2352/devsecops-gitops-config-huy.git'
     targetRevision: HEAD
-    path: retail-store/k8s/chart
+    path: k8s/chart
     helm:
       valueFiles:
         - values-dev.yaml

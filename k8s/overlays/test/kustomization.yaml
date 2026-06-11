@@ -1,10 +1,22 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
-# Bắt Kustomize lấy trực tiếp tài nguyên từ thư mục chart gốc làm nền tảng
-resources:
-  - ../../chart
+helmCharts:
+    # Tên của release (tự đặt)
+  - name: retail-store-dev
+    # ĐƯỜNG DẪN TRỰC TIẾP đến thư mục chứa Chart.yaml gốc
+    chart: ../../chart
+    # Chỉ định file values cho môi trường dev
+    valuesFile: ../../chart/values-dev.yaml
+    # Cấu hình inline nếu muốn ghi đè nhanh
+    valuesInline:
+      tags:
+        environment: "development"
+      ui:
+        replicaCount: 1 
+      catalog:
+        replicaCount: 1
 
-# Áp file patch đổi NodePort vào
+# Áp file patch để chuyển Service UI thành NodePort
 patches:
   - path: patch-ui-service.yaml

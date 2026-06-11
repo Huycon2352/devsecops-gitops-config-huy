@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: retail-store-dev
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/Huycon2352/devsecops-gitops-config-huy.git'
+    targetRevision: HEAD                                         # Hoặc branch 'main'
+    path: retail-store/k8s/chart                                # Đường dẫn đến thư mục chứa Chart.yaml
+    helm:
+      # Mặc định Helm sẽ tự apply file values.yaml 
+      valueFiles:
+        - values-dev.yaml
+  destination:
+    server: 'https://kubernetes.default.svc'                     # Deploy vào chính Minikube này
+    namespace: dev                                 # Namespace của môi trường DEV
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    createNamespace: true                                      

@@ -1,10 +1,10 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
-# Trỏ trực tiếp đến thư mục chứa Helm Chart gốc
+# Nạp file manifest tổng hợp đã được sinh từ Helm ở Bước 1
 resources:
-  - ../../chart
+  - all-manifests.yaml
 
-# Ép Service của UI thành NodePort cho môi trường test
+# Áp file patch để chuyển Service UI thành NodePort cho Minikube/Kind
 patches:
   - path: patch-ui-service.yaml

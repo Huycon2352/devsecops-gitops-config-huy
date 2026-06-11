@@ -23,4 +23,5 @@ spec:
     automated:
       prune: true
       selfHeal: true
-    createNamespace: true # Tự động tạo namespace 'retail-store-dev' nếu chưa có
+    syncOptions:
+      - CreateNamespace=true

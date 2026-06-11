@@ -785,7 +785,7 @@ spec:
         fsGroup: 1000
       containers:
         - name: ui
-          image: "public.ecr.aws/aws-containers/retail-store-sample-ui:1.6.1"
+          image: "public.ecr.aws/aws-containers/retail-store-sample-ui:1.0.1-amd64"
           imagePullPolicy: IfNotPresent
           env:
             - name: JAVA_OPTS

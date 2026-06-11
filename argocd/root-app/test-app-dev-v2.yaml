@@ -8,7 +8,12 @@ spec:
   source:
     repoURL: 'https://github.com/Huycon2352/devsecops-gitops-config-huy.git' 
     targetRevision: HEAD
-    path: k8s/overlays/test  # CHỈ GIỮ LẠI ĐƯỜNG DẪN NÀY
+    path: k8s/overlays/test
+    
+    # GIẢI PHÁP QUYẾT ĐỊNH: Bật tính năng nhận diện Helm của Kustomize trong ArgoCD
+    kustomize:
+      buildArgs: --enable-helm
+      
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: dev

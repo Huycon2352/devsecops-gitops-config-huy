@@ -6,7 +6,7 @@ global:
 # --- UI SERVICE ---
 ui:
   replicaCount: 1
-  image: aws-containers/retail-store-sample-ui:1.6.1
+  image: aws-containers/retail-store-sample-ui:1.0.1-amd64
   theme: default
   searchEnabled: "false"
   resources:

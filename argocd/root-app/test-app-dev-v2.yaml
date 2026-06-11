@@ -11,13 +11,13 @@ spec:
     targetRevision: HEAD
     
     # 2. ĐIỂM MẤT CHỐT: Trỏ đến thư mục chứa file kustomization.yaml của DEV
-    path: /k8s/overlays/test
+    path: k8s/overlays/test
     
   destination:
     # 3. Deploy thẳng vào cluster kind hiện tại
     server: 'https://kubernetes.default.svc'
     # Namespace mà bạn muốn ứng dụng retail-store chạy (ví dụ: dev)
-    namespace: retail-store-dev
+    namespace: dev
     
   syncPolicy:
     automated:

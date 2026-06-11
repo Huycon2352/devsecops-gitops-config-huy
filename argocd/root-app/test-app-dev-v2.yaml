@@ -1,0 +1,26 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: retail-store-dev
+  namespace: argocd
+spec:
+  project: default
+  source:
+    # 1. Link Git chứa toàn bộ project của bạn (cả chart và overlays)
+    repoURL: 'https://github.com/Huycon2352/devsecops-gitops-config-huy.git' 
+    targetRevision: HEAD
+    
+    # 2. ĐIỂM MẤT CHỐT: Trỏ đến thư mục chứa file kustomization.yaml của DEV
+    path: /k8s/overlays/test
+    
+  destination:
+    # 3. Deploy thẳng vào cluster kind hiện tại
+    server: 'https://kubernetes.default.svc'
+    # Namespace mà bạn muốn ứng dụng retail-store chạy (ví dụ: dev)
+    namespace: retail-store-dev
+    
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    createNamespace: true # Tự động tạo namespace 'retail-store-dev' nếu chưa có

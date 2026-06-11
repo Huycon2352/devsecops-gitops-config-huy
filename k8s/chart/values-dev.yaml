@@ -1,0 +1,83 @@
+global:
+  owner: retail-store-sample
+  managedBy: Helm
+  imageRegistry: public.ecr.aws
+
+# --- UI SERVICE ---
+ui:
+  replicaCount: 1
+  image: aws-containers/retail-store-sample-ui:1.6.1
+  theme: default
+  searchEnabled: "false"
+  resources:
+    limits:
+      memory: 512Mi
+    requests:
+      cpu: 128m
+      memory: 512Mi
+
+# --- CATALOG SERVICE ---
+catalog:
+  replicaCount: 1
+  image: aws-containers/retail-store-sample-catalog:1.6.1
+  searchEnabled: "false"
+  resources:
+    limits:
+      memory: 256Mi
+    requests:
+      cpu: 256m
+      memory: 256Mi
+  db:
+    provider: mysql
+    name: catalog
+    user: "Y2F0YWxvZw==" # base64: catalog
+    password: "U2pvOXA0aXRQZXNVWGk1Sw==" # base64: Sjo9p4itPesUXi5K
+    rootPassword: "my-secret-pw"
+
+# --- CARTS SERVICE ---
+carts:
+  replicaCount: 1
+  image: aws-containers/retail-store-sample-cart:1.6.1
+  resources:
+    limits:
+      memory: 512Mi
+    requests:
+      cpu: 256m
+      memory: 512Mi
+  dynamodb:
+    image: aws-dynamodb-local/aws-dynamodb-local:1.25.1
+    tableName: Items
+    createTable: "true"
+    awsAccessKey: "key"
+    awsSecretKey: "secret"
+
+# --- ORDERS SERVICE ---
+orders:
+  replicaCount: 1
+  image: aws-containers/retail-store-sample-orders:1.6.1
+  resources:
+    limits:
+      memory: 512Mi
+    requests:
+      cpu: 256m
+      memory: 512Mi
+  db:
+    provider: postgres
+    name: orders
+    user: "b3JkZXJz" # base64: orders
+    password: "WGh5TW01UUo2ZUlWdW5Tdw==" # base64: XhyMm5UJ6eIVunSw
+  rabbitmq:
+    image: docker/library/rabbitmq:3-management
+
+# --- CHECKOUT SERVICE ---
+checkout:
+  replicaCount: 1
+  image: aws-containers/retail-store-sample-checkout:1.6.1
+  resources:
+    limits:
+      memory: 256Mi
+    requests:
+      cpu: 128m
+      memory: 256Mi
+  redis:
+    image: docker/library/redis:6.0-alpine

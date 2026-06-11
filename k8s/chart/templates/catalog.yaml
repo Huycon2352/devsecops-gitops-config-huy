@@ -1,0 +1,181 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: catalog
+  labels:
+    {{- include "retail-store.labels" . | nindent 4 }}
+    app.kubernetes.io/name: catalog
+    app.kubernetes.io/component: service
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: catalog-db
+type: Opaque
+data:
+  RETAIL_CATALOG_PERSISTENCE_USER: {{ .Values.catalog.db.user }}
+  RETAIL_CATALOG_PERSISTENCE_PASSWORD: {{ .Values.catalog.db.password }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: catalog
+data:
+  RETAIL_CATALOG_PERSISTENCE_PROVIDER: {{ .Values.catalog.db.provider }}
+  RETAIL_CATALOG_PERSISTENCE_ENDPOINT: "catalog-mysql:3306"
+  RETAIL_CATALOG_PERSISTENCE_DB_NAME: {{ .Values.catalog.db.name }}
+  RETAIL_CATALOG_SEARCH_ENABLED: {{ .Values.catalog.searchEnabled | quote }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: catalog-mysql
+  labels:
+    {{- include "retail-store.labels" . | nindent 4 }}
+    app.kubernetes.io/name: catalog
+    app.kubernetes.io/component: mysql
+spec:
+  type: ClusterIP
+  ports:
+    - port: 3306
+      targetPort: mysql
+      protocol: TCP
+      name: mysql
+  selector:
+    app.kubernetes.io/name: catalog
+    app.kubernetes.io/component: mysql
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: catalog
+  labels:
+    {{- include "retail-store.labels" . | nindent 4 }}
+    app.kubernetes.io/name: catalog
+    app.kubernetes.io/component: service
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: catalog
+    app.kubernetes.io/component: service
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: catalog
+  labels:
+    {{- include "retail-store.labels" . | nindent 4 }}
+    app.kubernetes.io/name: catalog
+    app.kubernetes.io/component: service
+spec:
+  replicas: {{ .Values.catalog.replicaCount }}
+  strategy:
+    rollingUpdate:
+      maxUnavailable: 1
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: catalog
+      app.kubernetes.io/component: service
+  template:
+    metadata:
+      annotations:
+        prometheus.io/path: /metrics
+        prometheus.io/port: "8080"
+        prometheus.io/scrape: "true"
+      labels:
+        app.kubernetes.io/name: catalog
+        app.kubernetes.io/component: service
+    spec:
+      serviceAccountName: catalog
+      securityContext:
+        fsGroup: 1000
+      containers:
+        - name: catalog
+          image: "{{ .Values.global.imageRegistry }}/{{ .Values.catalog.image }}"
+          imagePullPolicy: IfNotPresent
+          envFrom:
+            - configMapRef:
+                name: catalog
+            - secretRef:
+                name: catalog-db
+          securityContext:
+            capabilities:
+              drop:
+              - ALL
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 1000
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+          resources:
+            {{- toYaml .Values.catalog.resources | nindent 12 }}
+          volumeMounts:
+            - mountPath: /tmp
+              name: tmp-volume
+      volumes:
+        - name: tmp-volume
+          emptyDir:
+            medium: Memory
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: catalog-mysql
+  labels:
+    {{- include "retail-store.labels" . | nindent 4 }}
+    app.kubernetes.io/name: catalog
+    app.kubernetes.io/component: mysql
+spec:
+  replicas: 1
+  serviceName: catalog-mysql
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: catalog
+      app.kubernetes.io/component: mysql
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: catalog
+        app.kubernetes.io/component: mysql
+    spec:
+      containers:
+        - name: mysql
+          image: "{{ .Values.global.imageRegistry }}/public.ecr.aws/docker/library/mysql:8.0"
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: {{ .Values.catalog.db.rootPassword | quote }}
+            - name: MYSQL_DATABASE
+              value: {{ .Values.catalog.db.name | quote }}
+            - name: MYSQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: catalog-db
+                  key: RETAIL_CATALOG_PERSISTENCE_USER
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: catalog-db
+                  key: RETAIL_CATALOG_PERSISTENCE_PASSWORD
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/mysql
+          ports:
+            - name: mysql
+              containerPort: 3306
+              protocol: TCP
+      volumes:
+      - name: data
+        emptyDir: {}

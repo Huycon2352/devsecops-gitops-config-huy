@@ -6,19 +6,18 @@ metadata:
 spec:
   project: default
   source:
-    # 1. Link Git chứa toàn bộ project của bạn (cả chart và overlays)
     repoURL: 'https://github.com/Huycon2352/devsecops-gitops-config-huy.git' 
     targetRevision: HEAD
+    path: k8s/overlays/test  # Vẫn trỏ vào thư mục kustomize này
     
-    # 2. ĐIỂM MẤT CHỐT: Trỏ đến thư mục chứa file kustomization.yaml của DEV
-    path: k8s/overlays/test
-    
+    # ĐÂY LÀ ĐIỂM QUAN TRỌNG: ArgoCD hỗ trợ Kustomize nạp file values của Helm nằm bên dưới!
+    helm:
+      valueFiles:
+        - ../../chart/values-dev.yaml
+        
   destination:
-    # 3. Deploy thẳng vào cluster kind hiện tại
     server: 'https://kubernetes.default.svc'
-    # Namespace mà bạn muốn ứng dụng retail-store chạy (ví dụ: dev)
     namespace: dev
-    
   syncPolicy:
     automated:
       prune: true
